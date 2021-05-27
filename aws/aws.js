@@ -27,7 +27,15 @@ module.exports = function(RED) {
             this.AWS.config.update({
                 accessKeyId: this.credentials.accesskeyid,
                 secretAccessKey: this.credentials.secretaccesskey,
+            if(this.custom && this.custom.s3BucketEndpoint &&
+               this.custom.region && this.custom.endpoint){
+               this.AWS.config.update({
+                  endpoint: this.credentials.accesskeyid,
+                  region: this.custom.region,
+                  s3BucketEndpoint: true,
             });
+        });
+}
         }
     }
 
@@ -35,6 +43,11 @@ module.exports = function(RED) {
         credentials: {
             accesskeyid: { type:"text" },
             secretaccesskey: { type: "password" }
+        },
+        custom: {
+          s3BucketEndpoint: { type:"boolean" , default: false} ,
+          region: { type:"text" } ,
+          endpoint: { type:"text" }
         }
     });
 
